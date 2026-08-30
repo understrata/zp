@@ -114,10 +114,11 @@ sudo ./zp -U              # Upgrade system (or sudo ./zp -U htop)
 
 ```
 zp/
-├── main.zig          # entry point, argument parsing, config
 ├── src/
-│   ├── get.zig       # Get package stat (name, version, url)
-│   └── runZP.zig     # install / remove / search / update logic
+│   ├── main.zig          # entry point, argument parsing, dispatch
+│   ├── parser.zig        # packages database access (read + write)
+│   ├── util.zig          # process spawning, directory helpers
+│   └── actions/          # add / remove / update / search / list / sync / init / help / version
 ├── LICENSE           # MIT
 └── README.md
 ```

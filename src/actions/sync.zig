@@ -1,7 +1,7 @@
 const std = @import("std");
-const runProcess = @import("add.zig").runProcess;
+const util = @import("../util.zig");
 
 pub fn sync(init: std.process.Init) !void {
     const argv = [_][]const u8{ "sh", "-c", "/var/zp/mirrors/gen.sh" };
-    try runProcess(init.io, &argv, ".");
+    try util.runProcess(init.io, &argv, ".");
 }

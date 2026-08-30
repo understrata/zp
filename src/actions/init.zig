@@ -1,12 +1,13 @@
 const std = @import("std");
+const util = @import("../util.zig");
 
-pub fn init(io: anytype) !void {
+pub fn init(io: std.Io) !void {
     std.debug.print("Initializing zp...\n", .{});
 
-    try createDir(io, "/var/zp/build");
-    try createDir(io, "/var/zp/install");
-    try createDir(io, "/var/zp/mirrors");
-    try createDir(io, "/var/zp/pkg");
+    try util.ensureDir(io, "/var/zp/build");
+    try util.ensureDir(io, "/var/zp/install");
+    try util.ensureDir(io, "/var/zp/mirrors");
+    try util.ensureDir(io, "/var/zp/pkg");
 
     const file = try std.Io.Dir.cwd().createFile(io, "/var/zp/mirrors/gen.sh", .{});
     defer file.close(io);
@@ -121,23 +122,11 @@ pub fn init(io: anytype) !void {
         \\
         \\echo "zp: base ready -> $OUT  (packages: $(wc -l < "$OUT"))"
     ;
-    //chmod +x /var/zp/mirrors/gen.sh
-    //touch /var/zp/install/packages.db
-    const stat = try file.stat(io);
-    const size = stat.size;
-    try file.writePositionalAll(io, cmd, size);
+    try file.writePositionalAll(io, cmd, 0);
     try file.setPermissions(io, std.Io.File.Permissions.fromMode(0o755));
 
     const packages = try std.Io.Dir.cwd().createFile(io, "/var/zp/install/packages.db", .{});
     defer packages.close(io);
 
     std.debug.print("Done.\n", .{});
-}
-
-pub fn createDir(io: anytype, path: []const u8) !void {
-    const dir_create: std.Io.Dir = std.Io.Dir.cwd();
-    dir_create.createDir(io, path, .default_dir) catch |err| switch (err) {
-        error.PathAlreadyExists => {},
-        else => return err,
-    };
 }

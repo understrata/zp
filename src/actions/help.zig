@@ -14,8 +14,8 @@ pub const HELP_TEXT =
     \\  help          Show this help message and exit
     \\  version       Show version information and exit
     \\  update        Update system packages with current mirrors
-    \\  ls            Print your installed pkgs
-    \\  
+    \\  list          Print your installed pkgs
+    \\
     \\
     \\Examples:
     \\  sudo zp init                # Initialize the package manager
@@ -25,7 +25,7 @@ pub const HELP_TEXT =
     \\  sudo zp remove htop         # Remove htop
     \\  sudo zp update htop         # Upgrade htop on new version
     \\  sudo zp update              # Upgrade your system
-    \\  sudo zp ls                  # Print your installed pkgs
+    \\  sudo zp list                # Print your installed pkgs
     \\
     \\For more information, visit: https://github.com/nevvixsz/zp
 ;
