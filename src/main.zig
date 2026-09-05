@@ -78,7 +78,7 @@ pub fn main(init: std.process.Init) !void {
                 try u.updatePkg(init, pkg, allocator);
             }
         },
-        .list => try list(init, allocator),
+        .list => try list(allocator),
         .search => for (pkgs.items) |pkg| {
             try search(init, pkg);
         },

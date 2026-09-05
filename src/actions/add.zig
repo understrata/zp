@@ -168,8 +168,7 @@ pub fn copy(io: anytype, allocator: std.mem.Allocator, src_dir: Dir, dest_dir: D
     }
 }
 pub fn add(init: std.process.Init, pkg_item: []const u8, allocator: std.mem.Allocator) !void {
-    var buf: [4096]u8 = undefined;
-    const pkg = try p.GetPkgStatToInstall(init.io, pkg_item, &buf, init.arena.allocator());
+    const pkg = try p.GetPkgStatToInstall(pkg_item, allocator);
     const file_name = if (std.mem.lastIndexOfScalar(u8, pkg.url, '/')) |i| pkg.url[i + 1 ..] else pkg.url;
 
     std.log.info("Install tar file...\n", .{});
@@ -209,7 +208,7 @@ pub fn add(init: std.process.Init, pkg_item: []const u8, allocator: std.mem.Allo
     const list_file = try Dir.createFileAbsolute(init.io, list_path, .{ .truncate = true });
     defer list_file.close(init.io);
 
-    try copy(init.io, init.arena.allocator(), pkg_dir, root_dir, "", list_file);
+    try copy(init.io, allocator, pkg_dir, root_dir, "", list_file);
     var cmd: [4096]u8 = undefined;
     try removePkgEntry(init, "/var/zp/install/packages.db", pkg_item, &cmd);
 

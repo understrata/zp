@@ -1,9 +1,8 @@
 const std = @import("std");
 const p = @import("../parser.zig");
 
-pub fn list(init: std.process.Init, allocator: std.mem.Allocator) !void {
-    var buffer: [8096]u8 = undefined;
-    var massive: std.ArrayList([]const u8) = try p.GetInstalledPkgs(init.io, &buffer, allocator);
+pub fn list(allocator: std.mem.Allocator) !void {
+    var massive: std.ArrayList([]const u8) = try p.GetInstalledPkgs(allocator);
 
     defer {
         for (massive.items) |i| {
